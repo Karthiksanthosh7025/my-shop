@@ -1,16 +1,6 @@
 import Image from "next/image";
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-};
-
-const sampleProducts: Product[] = [
-  { id: "1", name: "F 15C", price: 19.99, image: "/model1.jpg" },
-  { id: "2", name: "Canvas Tote Bag", price: 14.99, image: "/model2.jpg" },
-  { id: "3", name: "Ceramic Mug", price: 9.99, image: "/model3.jpg" },
-];
+import Link from "next/link";
+import { products } from "@/lib/products";
 
 export default function Home() {
   return (
@@ -21,10 +11,11 @@ export default function Home() {
       </header>
 
       <main className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {sampleProducts.map((product) => (
-          <div
+        {products.map((product) => (
+          <Link
             key={product.id}
-            className="rounded-xl bg-white p-4 shadow-sm transition hover:shadow-md"
+            href={`/products/${product.id}`}
+            className="block rounded-xl bg-white p-4 shadow-sm transition hover:shadow-md"
           >
             <div className="relative h-40 w-full overflow-hidden rounded-lg bg-zinc-100">
               <Image
@@ -41,7 +32,7 @@ export default function Home() {
             <button className="mt-4 w-full rounded-lg bg-zinc-900 px-4 py-2 text-white transition hover:bg-zinc-700">
               Add to Cart
             </button>
-          </div>
+          </Link>
         ))}
       </main>
     </div>
