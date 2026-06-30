@@ -1,14 +1,15 @@
+"use client";
+
 import Image from "next/image";
+import { useParams, notFound } from "next/navigation";
 import { products } from "@/lib/products";
-import { notFound } from "next/navigation";
+import { useCart } from "@/lib/cart-context";
 
-type Props = {
-  params: Promise<{ id: string }>;
-};
-
-export default async function ProductPage({ params }: Props) {
-  const { id } = await params;
+export default function ProductPage() {
+  const params = useParams();
+  const id = params.id as string;
   const product = products.find((p) => p.id === id);
+  const { addToCart } = useCart();
 
   if (!product) {
     notFound();
@@ -32,7 +33,10 @@ export default async function ProductPage({ params }: Props) {
             £{product.price.toFixed(2)}
           </p>
           <p className="mt-4 text-zinc-600">{product.description}</p>
-          <button className="mt-6 w-full rounded-lg bg-zinc-900 px-4 py-3 text-white transition hover:bg-zinc-700 sm:w-auto sm:px-8">
+          <button
+            onClick={() => addToCart(product)}
+            className="mt-6 w-full rounded-lg bg-zinc-900 px-4 py-3 text-white transition hover:bg-zinc-700 sm:w-auto sm:px-8"
+          >
             Add to Cart
           </button>
         </div>
